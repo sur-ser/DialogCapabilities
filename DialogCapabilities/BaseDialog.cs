@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DialogCapabilities
@@ -14,8 +12,14 @@ namespace DialogCapabilities
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll")]
+        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+        [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
-        
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, string lParam);
+
         public static IntPtr Catch(string processTitle, int timeOutMs = 15000, int waitStep = 50)
         {
             var dialogHWnd = FindWindow(null, processTitle);
@@ -26,28 +30,45 @@ namespace DialogCapabilities
 
             while (st.ElapsedMilliseconds < timeOutMs)
             {
-                Task.Delay(waitStep);
                 var catched = FindWindow(null, processTitle);
 
                 if (catched != IntPtr.Zero)
-                {
                     return catched;
-                }
+
+                Task.Delay(waitStep);
             }
 
-            return IntPtr.Zero;
+            throw new ControlNotFoundException(processTitle, timeOutMs);
         }
 
-        public static bool PerformAction(IntPtr dialogHWnd, DialogCommand command)
+        public static IntPtr CatchControlIn(IntPtr hWnd, string elemName, int timeOutMs = 3000, int waitStep = 50)
         {
-            var setFocus = SetForegroundWindow(dialogHWnd);
-            if (setFocus)
+            IntPtr result = IntPtr.Zero;
+
+            Stopwatch st = new Stopwatch();
+            st.Start();
+
+            while (st.ElapsedMilliseconds < timeOutMs)
             {
-                System.Windows.Forms.SendKeys.SendWait(command.Command);
-                return true;
+                result =  FindWindowEx(hWnd, IntPtr.Zero, elemName, null);
+
+                if (result != IntPtr.Zero)
+                    return result;
+
+                Task.Delay(waitStep);
             }
 
-            return false;
+            throw new ControlNotFoundException(elemName,timeOutMs);
+        }
+
+        public static void SendText(IntPtr hCntrl, string text)
+        {
+            SendMessage(hCntrl, 0X000C, 0, text);
+        }
+
+        public static void SendClick(IntPtr hCntrl)
+        {
+            SendMessage(hCntrl, 245, 0, null);
         }
     }
 }
