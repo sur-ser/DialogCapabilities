@@ -1,20 +1,22 @@
-﻿namespace DialogCapabilities
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace DialogCapabilities
 {
     public static class Dialogs
     {
-        private static string _fileNameFldName = "ComboBoxEx32";
-        private static string _okBtnName = "Button";
-
         public static bool OpenFileDialog(string title, string file)
         {
-            var opnFileDialog = BaseDialog.Catch(title);
+            var opnFileDialog = FormController.Catch(title);
             
-            var fileNameFld = BaseDialog.CatchControlIn(opnFileDialog, _fileNameFldName);
-            BaseDialog.SendText(fileNameFld, file);
+            opnFileDialog
+                .CatchControl("ComboBoxEx32")
+                .SendText(file);
 
-            var okBtn = BaseDialog.CatchControlIn(opnFileDialog, _okBtnName);
-            
-            BaseDialog.SendClick(okBtn);
+            opnFileDialog
+                .CatchControl("Button")
+                .SendClick();
 
             return true;
         }
@@ -24,6 +26,26 @@
             string filesStr = "\"" + string.Join("\" \"", files) + "\"";
             
             return OpenFileDialog(title, filesStr);
+        }
+        
+        public static void SaveFileDialog(string title, string file)
+        {
+            var opnFileDialog = FormController.Catch(title);
+
+            opnFileDialog
+                .CatchControlByPath("DUIViewWndClassName/DirectUIHWND/FloatNotifySink/ComboBox")
+                .SendText(file);
+
+            opnFileDialog
+                .CatchControl("Button")
+                .SendClick();
+        }
+
+        public static void SaveFileDialogFileOwerride(string title, bool confirmOwerride)
+        {
+            var fileOwerride = FormController.Catch(title);
+
+            //owerride file logic
         }
     }
 }

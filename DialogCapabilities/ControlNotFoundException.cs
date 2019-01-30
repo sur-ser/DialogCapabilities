@@ -15,14 +15,14 @@ namespace DialogCapabilities
     public class ProcessNotFoundException : DialogCapabilitiesException
     {
         public ProcessNotFoundException(string processTitle, int timeOutMs)
-            : base($"Process cannot be found by title: {processTitle} by timeout {timeOutMs} ms")
+            : base($"Process \"{processTitle}\" wasn't found in {timeOutMs} ms")
         {}
     }
 
     public class ControlNotFoundException : DialogCapabilitiesException
     {
         public ControlNotFoundException(string elemName, int timeOutMs)
-            : base($"Control {elemName} didn't found in proper time {timeOutMs} ms")
+            : base($"Control \"{elemName}\" wasn't found in {timeOutMs} ms")
         { }
     }
 }

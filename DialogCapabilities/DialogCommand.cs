@@ -35,6 +35,12 @@
 
         }
 
+        public DialogCommand CtrlS()
+        {
+            Command += "{^S}";
+            return this;
+        }
+
         // all other needed commands here: 
         // https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.sendkeys?redirectedfrom=MSDN&view=netframework-4.7.2
     }
