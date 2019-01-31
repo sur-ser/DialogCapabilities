@@ -42,10 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\DialogsEn.cs" />
     <Compile Include="FormController.cs" />
     <Compile Include="ControlNotFoundException.cs" />
     <Compile Include="DialogCommand.cs" />
-    <Compile Include="Dialogs.cs" />
+    <Compile Include="Dialogs\Dialogs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

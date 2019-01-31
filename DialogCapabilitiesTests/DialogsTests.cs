@@ -1,10 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DialogCapabilities.Dialogs;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 
 namespace DialogCapabilities.Tests
 {
+    /// <summary>
+    /// Tests must be runned on English version of windows
+    /// </summary>
     [TestClass()]
     public class DialogsTests
     {
@@ -19,11 +22,10 @@ namespace DialogCapabilities.Tests
 
             form.CatchControl("Edit")
                 .SendText("This is the new Text!!!");
+            
+            form.SetForeground().SendKeys("^s");//Ctrl + S
 
-
-            form.SetForeground().SendKeys("^s");
-
-            Dialogs.SaveFileDialog("Save As", @"d:\test.txt");
+            DialogsEn.SaveFileDialog(@"d:\test.txt");
 
             Thread.Sleep(5000);
 
@@ -42,13 +44,13 @@ namespace DialogCapabilities.Tests
         //    form.CatchControl("Edit")
         //        .SendText("--");
 
-        //    form.SetForeground().SendKeys("^s");
+        //    form.SetForeground().SendKeys("^s");//Ctrl + S
 
-        //    Dialogs.SaveFileDialog("Save As", @"d:\test.txt");
+        //    Dialogs.DialogsEn(@"d:\test.txt");
 
         //    Thread.Sleep(3000);
 
-        //    Dialogs.SaveFileDialogFileOwerride("Save As", true);
+        //    DialogsEn.SaveFileDialogFileOwerride();
 
         //    Thread.Sleep(3000);
 
@@ -69,11 +71,11 @@ namespace DialogCapabilities.Tests
                 .Catch("Untitled - Notepad")
                 .SetForeground();
             
-            form.SetForeground().SendKeys("^o");
+            form.SetForeground().SendKeys("^o");//Ctrl + O
             
             Thread.Sleep(5000);
             
-            Dialogs.OpenFileDialog("Open", @"d:\test.txt");
+            DialogsEn.OpenFileDialog(@"d:\test.txt");
             
             Thread.Sleep(5000);
 

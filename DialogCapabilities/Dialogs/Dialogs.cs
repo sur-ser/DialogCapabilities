@@ -1,12 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace DialogCapabilities
+﻿namespace DialogCapabilities.Dialogs
 {
     public static class Dialogs
     {
-        public static bool OpenFileDialog(string title, string file)
+        public static void OpenFileDialog(string title, string file)
         {
             var opnFileDialog = FormController.Catch(title);
             
@@ -17,15 +13,13 @@ namespace DialogCapabilities
             opnFileDialog
                 .CatchControl("Button")
                 .SendClick();
-
-            return true;
         }
 
-        public static bool OpenFileDialog(string title, string[] files)
+        public static void OpenFileDialog(string title, string[] files)
         {
             string filesStr = "\"" + string.Join("\" \"", files) + "\"";
             
-            return OpenFileDialog(title, filesStr);
+            OpenFileDialog(title, filesStr);
         }
         
         public static void SaveFileDialog(string title, string file)
@@ -41,9 +35,11 @@ namespace DialogCapabilities
                 .SendClick();
         }
 
-        public static void SaveFileDialogFileOwerride(string title, bool confirmOwerride)
+        public static void SaveFileDialogFileOwerride(string title, bool rejectOverride = false)
         {
             var fileOwerride = FormController.Catch(title);
+            
+            //"DirectUIHWND/CtrlNotifySink/Button";
 
             //owerride file logic
         }
